@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Love Calculator</title>
+
+</head>
+<body>
+  <div class="container">
+    <h1>Love Calculator</h1>
+    <form onsubmit="calculateLove(event)">
+      <label for="boyName">BOY NAME:</label>
+      <input type="text" id="boyName" required>
+      <label for="girlName">GIRL NAME:</label>
+      <input type="text" id="girlName" required>
+      <button type="submit">Calculate Love</button>
+    </form>
+    <div id="result"></div>
+  </div>
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  background-image: url('https://wallpapercave.com/wp/JcmwY8J.jpg'); /* Replace 'background.jpg' with the URL of your desired background image */
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background-color: rgba(255, 255, 255, 0.8); /* Add transparency to the container */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#result {
+  text-align: center;
+  font-size: 20px;
+  margin-top: 20px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+#loveMessage {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+  color: #333;
+}
+
+</style>
+<script>
+    const loveMessages = [
+  "You are a perfect match!",
+  "Your love is magical!",
+  "You are meant to be together!",
+  "Your love is unique!",
+  "Your love will last forever!",
+  "You are deeply connected!",
+  "Your love is like a fairytale!"
+];
+
+function calculateLove(event) {
+  event.preventDefault();
+  const boyName = document.getElementById('boyName').value.trim().toUpperCase();
+  const girlName = document.getElementById('girlName').value.trim().toUpperCase();
+
+  if (!isValidName(boyName) || !isValidName(girlName)) {
+    document.getElementById('result').innerText = "Please enter valid names.";
+    document.getElementById('loveMessage').innerText = "";
+    return;
+  }
+
+  const combinedNames = boyName + girlName;
+  const letterCounts = {};
+
+  for (const letter of combinedNames) {
+    letterCounts[letter] = (letterCounts[letter] || 0) + 1;
+  }
+
+  const countsArray = Object.values(letterCounts).sort((a, b) => b - a);
+  let lovePercentage = "";
+
+  while (countsArray.length > 0) {
+    lovePercentage += countsArray.shift();
+  }
+
+  while (lovePercentage.length > 2) {
+    let newPercentage = "";
+    for (let i = 0; i < lovePercentage.length - 1; i++) {
+      newPercentage += (parseInt(lovePercentage[i]) + parseInt(lovePercentage[i + 1])) % 10;
+    }
+    lovePercentage = newPercentage;
+  }
+
+  const randomLoveMessage = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+
+  document.getElementById('result').innerText = `Love is ${lovePercentage}%`;
+  document.getElementById('loveMessage').innerText = randomLoveMessage;
+}
+
+function isValidName(name) {
+  return /^[A-Za-z]+$/.test(name);
+}
+
+</script>
+</body>
+</html>
